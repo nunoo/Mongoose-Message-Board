@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/script.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+
+<body class="body">
+    <div class="container">
+        <h1>The Dojo Message Board</h1>
+        <hr>
+        <form action="/addmsg" method="POST">
+            <div class="form-group">
+                <label for="" class="pt-3">Name</label>
+                <input name="name" type="text" class="form-control col-4" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="">Message</label>
+                <textarea name="message" type="text" class="form-control col-8" placeholder="Message"></textarea>
+            </div>
+
+            <div class="row text-center">
+                <input type="submit" class="btn btn-primary ml-3 mt-2 mb-4" value="Post Message">
+
+            </div>
+        </form>
+
+        <% for(var msg = 0; msg < messages.length; msg++) { %>
+        <div class="ml-5">
+            <h5>Name: <%= messages[msg].name %></h5>
+            <h5>Message: <%= messages[msg].message %></h5>
+
+
+            <% if( messages[msg].comment.length > 0) { %>
+            <% for(var com = 0; com < messages[msg].comment.length; com++) { %>
+            <div class="ml-5">
+                <h6>Name: <%= messages[msg].comment[com].name %></h6>
+                <h6>Comment: <%= messages[msg].comment[com].comment %></h6>
+            </div>
+            <% } %>
+            <% } %>
+
+            <form class="ml-5" action="/addcomment" method="POST">
+                <input type="hidden" name="msg_id" value="<%= messages[msg].id %>">
+                <div class="form-group">
+                    <label for="" class="pt-3">Name</label>
+                    <input name="name"  type="text" class="form-control col-4" placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <label for="">Comment</label>
+                    <textarea name="comment" type="text" class="form-control col-8" placeholder="Comment"></textarea>
+                </div>
+
+                <div class="row text-center">
+                    <input type="submit" class="btn btn-info ml-3 mt-2 mb-4" value="Post Comment">
+
+                </div>
+            </form>
+        </div>
+        <% } %>
+
+
+
+    </div>
+</body>
+
+</html>
